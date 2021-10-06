@@ -1,32 +1,84 @@
 package ru.vsu.amm.java;
+import java.util.Scanner;
+import java.util.InputMismatchException;
 
-/**РѕСЃРЅРѕРІРЅРѕР№ РєР»Р°СЃСЃ Main СЃ РјРµС‚РѕРґРѕРј <b>main</b>
- * @autor Р®Р»РёР°РЅР° РўРµР»РєРѕРІР°
+/** программа реализует приложение, которое
+ * создаёт, печатает и удаляет элементы в списке на стандартном потоке вывода
+ * основной класс Main с методом <b>main</b>
+ * @author Юлиана Телкова
  * @version 2021.2.1
  */
 public class Main {
+    /**
+     * функция main
+     * @param args - аргументы
+     * */
     public static void main(String[] args)
     {
         List list = new List();
-        list.insert(1);
-        list.insert(2);
-        list.insert(3);
-        list.insert(4);
-        list.insert(5);
-        list.insert(6);
-        list.insert(7);
-        list.insert(8);
 
-        list.print();
+        int command = 1;
+        do{
+            //создает новый сканер, который создает значения, отсканированные из указанного входного потока
+            Scanner in = new Scanner(System.in);//считывает данные из указанного источника
+            System.out.println(
+                    "1. Добавление элемента\n" +
+                    "2. Добавление элемента по ключу\n" +
+                    "3. Удаление элемента из головы\n" +
+                    "4. Удаление элемента из тела\n" +
+                            "5. Выход");
+            command = in.nextInt();//считывает и возвращает введённое число
+            int x;
+            int y;
+            switch (command) {
+                case 1:
+                    System.out.print("Введите элемент: ");
+                    try //определяет блок кода, в котором может произойти исключение
+                    {
+                        x = in.nextInt();
+                        list.Insert(x);
+                        System.out.print(list.toString());
+                    }
+                    //если неправильный тип ввода или ввод вне диапазона
+                    catch (InputMismatchException expected)//определяет блок кода, в котором происходит обработка исключения
+                    {
+                        System.out.println("Ошибка: неправильный ввод");
+                    }
+                    break;
 
-        //СѓРґР°Р»СЏРµРј РІ РіРѕР»РѕРІРµ
-        list.delete(1);
-        list.print();
-        //СѓРґР°Р»СЏРµРј РІ СЃРµСЂРµРґРёРЅРµ
-        list.delete(4);
-        list.print();
-        //СѓРґР°Р»СЏРµРј РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№
-        list.delete(10);
-        list.print();
+                case 2:
+                    try {
+                        System.out.print("Введите элемент: ");
+                        x = in.nextInt();
+                        System.out.print("Введите идекс: ");
+                        y = in.nextInt();
+                        list.InsertByKey(x, y);
+                        System.out.print(list.toString());
+                    } catch (Exception expected) {
+                        System.out.println("Ошибка: неверный ввод индекса");
+                    }
+                    break;
+
+                case 3:
+                    try {
+                        list.DeleteHead();
+                        System.out.print(list.toString());
+                    } catch (Exception expected) {
+                        System.out.println("Ошибка: списка не существует");
+                    }
+                    break;
+
+                case 4:
+                    try {
+                        System.out.print("Введите элемент: ");
+                        x = in.nextInt();
+                        list.DeleteData(x);
+                        System.out.print(list.toString());
+                    }catch (Exception expected) {
+                        System.out.println("Ошибка: неверный ввод элемента");
+                    }
+                    break;
+            }
+        } while (command != 5);
     }
 }
